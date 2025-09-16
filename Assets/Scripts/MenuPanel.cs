@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,24 +11,31 @@ public class MenuPanel : MonoBehaviour
     
     public List<Button> Buttons = new List<Button>();
     public Button BackButton;
-    public Sprite Rus;
-    public Sprite Uzb;
     
-    private Image _image;
-    private int _index;
+    public GameObject AllButtonsParent;
+    public GameObject AllThemeParent;
+    
+    private List<ThemePanel> AllThemePanels = new List<ThemePanel>();
+    private List<Button> AllButtons = new List<Button>();
+    
+    private List<AnimTextClass> AllAnimTexts = new List<AnimTextClass>();
+    private GameManager _manager;
 
     public void Init()
     {
-        // for (int i = 0; i < Buttons.Count; i++)
-        // {
-        //     int j = i;
-        //     Buttons[i].onClick.AddListener(() => OnClickTheme(Buttons[j],j));
-        // }
-        //
-        // _image = GetComponent<Image>();
-        // BackButton.onClick.AddListener(OnBack);
-        // ChangeLang();
-        // Hide();
+        _manager = GameManager.instance;
+        AllAnimTexts = AllButtonsParent.GetComponentsInChildren<AnimTextClass>(true).ToList();
+        AllThemePanels = AllThemeParent.GetComponentsInChildren<ThemePanel>().ToList();
+        AllButtons = AllButtonsParent.GetComponentsInChildren<Button>().ToList();
+
+        for (int i = 0; i < AllThemePanels.Count; i++)
+        {
+            var i1 = i;
+            AllButtons[i].onClick.AddListener(()=>AllThemePanels[i1].Show(AllButtons[i1]));
+            AllThemePanels[i].Init();
+        }
+
+        Hide();
     }
 
     public void Show()
@@ -34,35 +43,28 @@ public class MenuPanel : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    private void OnBack()
-    {
-    }
-
     public void Hide()
     {
+        foreach (var button in AllButtons)
+        {
+            button.image.color = new Color(button.image.color.r, button.image.color.g, button.image.color.b, 0);
+        }
         gameObject.SetActive(false);
-    }
-
-    private void OnClickTheme(Button button,int theme)
-    {
-        _index = theme;
-    }
-
-    private void ShowTheme()
-    {
-        int theme = _index;
-        GameManager.instance.ThemePanel.Show(theme);
     }
 
     public void ChangeLang()
     {
-        if (GameManager.instance.CurrentLang == 1)
+        foreach (var animText in AllAnimTexts)
         {
-            _image.sprite = Uzb;
+            animText.ChangeLanguage(_manager.CurrentLang);
         }
-        else if (GameManager.instance.CurrentLang == 4)
+    }
+
+    public void OffAllButtons()
+    {
+        foreach (var button in Buttons)
         {
-            _image.sprite = Rus;
+            button.enabled = false;
         }
     }
 

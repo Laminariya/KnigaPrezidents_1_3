@@ -1,118 +1,133 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using BrunoMikoski.TextJuicer;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
 
 public class ThemePanel : MonoBehaviour
 {
-
-    public Image NameImage;
-    public Image DiscriptionImage;
-    public Image ScrollTextImage;
-    public TMP_Text QuotesText;
-    public Button BackButton;
     
-    private Scrollbar _scrollbar;
-    private int _currentQuote;
-    private Coroutine _coroutine;
-    private int _currentNumberTheme;
-    private LangTheme _currentTheme;
+    public Sprite FirstSpriteRus;
+    public Sprite SecondSpriteRus;
+    public Sprite FirstSpriteUzb;
+    public Sprite SecondSpriteUzb;
+
+    private GameObject rusPanel;
+    private GameObject uzbPanel;
+    private List<TMP_TextJuicer> textJuicersRus = new List<TMP_TextJuicer>();
+    private List<TMP_TextJuicer> textJuicersUzb = new List<TMP_TextJuicer>();
+
+    private Button b_DownRus;
+    private Button b_DownUzb;
+    private Button b_UpRus;
+    private Button b_UpUzb;
+    
+    private ScrollRect ScrollViewRus;
+    private ScrollRect ScrollViewUzb;
 
     private float _timer;
+    private GameManager _manager;
     
     public void Init()
     {
-        // _scrollbar = GetComponentInChildren<Scrollbar>(true);
-        // BackButton.onClick.AddListener(OnBack);
-        // _currentQuote = 0;
-        // _timer = Time.time;
-        // Hide();
-    }
+        _manager = GameManager.instance;
 
-    private void Update()
-    {
-        if (gameObject.activeSelf && Time.time - _timer > 5f)
-        {
-            _timer = Time.time;
-            ChangeQuote();
-        }
-    }
-
-    public void Show(int numberTheme)
-    {
-        _timer = Time.time;
-        _currentNumberTheme = numberTheme;
-        ChangeLang();
-        gameObject.SetActive(true);
+        rusPanel = transform.GetChild(0).gameObject;
+        rusPanel.SetActive(false);
+        uzbPanel = transform.GetChild(1).gameObject;
+        uzbPanel.SetActive(false);
         
-        ChangeQuote();
+        textJuicersRus = rusPanel.GetComponentsInChildren<TMP_TextJuicer>().ToList();
+        textJuicersUzb = uzbPanel.GetComponentsInChildren<TMP_TextJuicer>().ToList();
+        
+        Button[] buttons = uzbPanel.GetComponentsInChildren<Button>();
+        b_DownUzb = buttons[0];
+        b_UpUzb = buttons[1];
+        Button[] buttons2 = rusPanel.GetComponentsInChildren<Button>();
+        b_DownRus = buttons2[0];
+        b_UpRus = buttons2[1];
+        
+        ScrollViewRus = rusPanel.GetComponentInChildren<ScrollRect>(true);
+        ScrollViewUzb = uzbPanel.GetComponentInChildren<ScrollRect>(true);
+        
     }
 
-    private void ChangeQuote()
+    public void Show(Button button)
     {
-        if (_coroutine != null)
+        Debug.Log(name);
+        _manager.MenuPanel.OffAllButtons();
+        button.image.DOFade(1f, 0.3f);
+        button.image.DOFade(0f, 0.3f).SetDelay(0.3f).OnComplete(StartShowCor);
+    }
+
+    private void StartShowCor()
+    {
+        StartCoroutine(ShowCoroutine());
+    }
+
+    IEnumerator ShowCoroutine()
+    {
+        if (_manager.CurrentLang == 0)
         {
-            StopCoroutine(_coroutine);
+            uzbPanel.SetActive(true);
         }
 
-        _coroutine = StartCoroutine(ShowQuoteCoroutine());
+        if (_manager.CurrentLang == 1)
+        {
+            rusPanel.SetActive(true);
+        }
+
+        foreach (var juicer in textJuicersUzb)
+        {
+            juicer.SetProgress(0f);
+            juicer.Update();
+        }
+        foreach (var juicer in textJuicersRus)
+        {
+            juicer.SetProgress(0f);
+            juicer.Update();
+        }
+        
+        float progress = 0f;
+        while (progress<1f)
+        {
+            progress += Time.deltaTime*_manager.SpeedAnimText;
+            foreach (var juicer in textJuicersUzb)
+            {
+                juicer.SetProgress(progress);
+                juicer.Update();
+            }
+            foreach (var juicer in textJuicersRus)
+            {
+                juicer.SetProgress(progress);
+                juicer.Update();
+            }
+            yield return null;
+        }
     }
+
 
     private void Hide()
     {
         gameObject.SetActive(false);
     }
 
-    private void OnBack()
-    {
-        
-    }
-
     public void ChangeLang()
     {
-        if (GameManager.instance.CurrentLang == 1)
+        if (GameManager.instance.CurrentLang == 0)
         {
-            _currentTheme = GameManager.instance.LangUzbThemes[_currentNumberTheme];
+            
         }
-        else if (GameManager.instance.CurrentLang == 4)
+        else if (GameManager.instance.CurrentLang == 1)
         {
-            _currentTheme = GameManager.instance.LangRusThemes[_currentNumberTheme];
+            
         }
-
-        NameImage.sprite = _currentTheme.Name;
-        NameImage.SetNativeSize();
-        DiscriptionImage.sprite = _currentTheme.Discription;
-        DiscriptionImage.SetNativeSize();
-        ScrollTextImage.sprite = _currentTheme.ScrollText;
-        ScrollTextImage.SetNativeSize();
     }
-
-    IEnumerator ShowQuoteCoroutine()
-    {
-        int lenght = QuotesText.text.Length;
-        string str = QuotesText.text;
-        for (int i = lenght-1; i >= 0; i--)
-        {
-            QuotesText.text = str.Substring(0, i);
-            yield return new WaitForSeconds(GameManager.instance.SpeedAnimText);
-        }
-
-        _currentQuote++;
-        if(_currentQuote >= _currentTheme.Quotes.Count)
-            _currentQuote = 0;
-        
-        string quote = (_currentQuote+1).ToString();
-        if (quote.Length == 1)
-            quote = "0" + quote;
-        string numberVideo = "0" + _currentNumberTheme + quote;
-        GameManager.instance.MySendMessage(numberVideo);
-        
-        lenght = _currentTheme.Quotes[_currentQuote].Length;
-        for (int i = 0; i <= lenght; i++)
-        {
-            QuotesText.text = _currentTheme.Quotes[_currentQuote].Substring(0, i);
-            yield return new WaitForSeconds(GameManager.instance.SpeedAnimText);
-        }
-        _timer = Time.time;
-    }
+    
 }

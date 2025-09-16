@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,19 +12,18 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public float SpeedAnimText;
-    public float SpeedAnimColor;
     public MenuPanel MenuPanel;
     public StartPanel StartPanel;
-    public ThemePanel ThemePanel;
-    public ClientUDP ClientUdp;
+    
+    [HideInInspector] public ClientUDP ClientUdp;
     public GameObject Border;
     public int CurrentLang;
     
     public Button Lang_Uzb;
     public Button Lang_Rus;
+
+    public GameObject HomePanelButton;
     
-    public List<LangTheme> LangRusThemes = new List<LangTheme>();
-    public List<LangTheme> LangUzbThemes = new List<LangTheme>();
 
     private Coroutine _coroutineClickButton;
     
@@ -35,31 +35,39 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        CurrentLang = 4;
+        ClientUdp = GetComponent<ClientUDP>();
+        CurrentLang = 1;
         MenuPanel.Init();
         StartPanel.Init();
-        ThemePanel.Init();
         ClientUdp.Init();
         Border.SetActive(false);
         Lang_Uzb.onClick.AddListener(OnUzb);
         Lang_Rus.onClick.AddListener(OnRus);
+        HomePanelButton.SetActive(false);
+        
     }
 
     private void OnUzb()
     {
         CurrentLang = 0;
+        if (!MenuPanel.gameObject.activeSelf)
+        {
+            MenuPanel.Show();
+        }
     }
-
 
     private void OnRus()
     {
         CurrentLang = 1;
+        if (!MenuPanel.gameObject.activeSelf)
+        {
+            MenuPanel.Show();
+        }
     }
 
     public void ChangeLang()
     {
         MenuPanel.ChangeLang();
-        ThemePanel.ChangeLang();
         StartPanel.ChangeLang();
     }
     
