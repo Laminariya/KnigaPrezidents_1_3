@@ -17,6 +17,7 @@ public class AnimTextClass : MonoBehaviour
 
     public void ChangeLanguage(int language)
     {
+        //Debug.Log(name);
         textJuicer.Text = textList[language];
     }
 

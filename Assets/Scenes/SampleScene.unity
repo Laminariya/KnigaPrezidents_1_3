@@ -519,6 +519,11 @@ MonoBehaviour:
   SecondSpriteRus: {fileID: 21300000, guid: 39723705122333646bafa2b89363d8a6, type: 3}
   FirstSpriteUzb: {fileID: 21300000, guid: afa2de9997e043f4fb5e04ccd585d5e4, type: 3}
   SecondSpriteUzb: {fileID: 21300000, guid: 2f34091ad29f05241b844575b8568b8c, type: 3}
+  rusPopap: {fileID: 347655337}
+  uzbPopap: {fileID: 581339145}
+  textJuicersRus: []
+  textJuicersUzb: []
+  IsActive: 0
 --- !u!1 &20628193
 GameObject:
   m_ObjectHideFlags: 0
@@ -1751,6 +1756,11 @@ MonoBehaviour:
   SecondSpriteRus: {fileID: 21300000, guid: 6b75ae623976f1142ad6556dbcb058fd, type: 3}
   FirstSpriteUzb: {fileID: 21300000, guid: 23dbd2672724dae43ba39ed759c64ab3, type: 3}
   SecondSpriteUzb: {fileID: 21300000, guid: 15ebc54d6b960334b9bc7d311de1abd6, type: 3}
+  rusPopap: {fileID: 1803489317}
+  uzbPopap: {fileID: 609588112}
+  textJuicersRus: []
+  textJuicersUzb: []
+  IsActive: 0
 --- !u!1 &81702954
 GameObject:
   m_ObjectHideFlags: 0
@@ -6892,6 +6902,11 @@ MonoBehaviour:
   SecondSpriteRus: {fileID: 21300000, guid: dbbce9786fc1b154c82d911c46e556ae, type: 3}
   FirstSpriteUzb: {fileID: 21300000, guid: 436b7b8555284844a819af016e9d303d, type: 3}
   SecondSpriteUzb: {fileID: 21300000, guid: 8e307933113ec5f4d89bd40769c48bc7, type: 3}
+  rusPopap: {fileID: 1655122519}
+  uzbPopap: {fileID: 1440369701}
+  textJuicersRus: []
+  textJuicersUzb: []
+  IsActive: 0
 --- !u!1 &351064900
 GameObject:
   m_ObjectHideFlags: 0
@@ -9986,6 +10001,11 @@ MonoBehaviour:
   SecondSpriteRus: {fileID: 21300000, guid: b69bdca4aa2b2bf4d80a68f5eed7b911, type: 3}
   FirstSpriteUzb: {fileID: 21300000, guid: 1192e01587a833047a3899c1e10d89a0, type: 3}
   SecondSpriteUzb: {fileID: 21300000, guid: f855c8c4a5cfd0943a837d75eeec67f0, type: 3}
+  rusPopap: {fileID: 401618638}
+  uzbPopap: {fileID: 140835579}
+  textJuicersRus: []
+  textJuicersUzb: []
+  IsActive: 0
 --- !u!1 &460764911
 GameObject:
   m_ObjectHideFlags: 0
@@ -18222,6 +18242,7 @@ MonoBehaviour:
   BackButton: {fileID: 1810499973}
   AllButtonsParent: {fileID: 871557090}
   AllThemeParent: {fileID: 1473094130}
+  AllAnimTexts: []
 --- !u!1 &877466418
 GameObject:
   m_ObjectHideFlags: 0
@@ -25025,6 +25046,11 @@ MonoBehaviour:
   SecondSpriteRus: {fileID: 21300000, guid: a2208baa774eb8648b341ecac961b3e3, type: 3}
   FirstSpriteUzb: {fileID: 21300000, guid: 1ecea2cbb99825e4882f00e2737e5ad8, type: 3}
   SecondSpriteUzb: {fileID: 21300000, guid: d0eb139b33cb9b84a8f6ee4275960ae3, type: 3}
+  rusPopap: {fileID: 2034493215}
+  uzbPopap: {fileID: 2126578709}
+  textJuicersRus: []
+  textJuicersUzb: []
+  IsActive: 0
 --- !u!1 &1163344017
 GameObject:
   m_ObjectHideFlags: 0
@@ -29017,6 +29043,11 @@ MonoBehaviour:
   SecondSpriteRus: {fileID: 21300000, guid: 837778086da746d47a1ec8f89a946d8a, type: 3}
   FirstSpriteUzb: {fileID: 21300000, guid: f9278f82493f4be4bb70274098fba779, type: 3}
   SecondSpriteUzb: {fileID: 21300000, guid: 315aadc77cc0a464db04bd10ae1515ad, type: 3}
+  rusPopap: {fileID: 1916947361}
+  uzbPopap: {fileID: 682702289}
+  textJuicersRus: []
+  textJuicersUzb: []
+  IsActive: 0
 --- !u!1 &1393763618
 GameObject:
   m_ObjectHideFlags: 0
@@ -29957,7 +29988,9 @@ MonoBehaviour:
   CurrentLang: 0
   Lang_Uzb: {fileID: 97237301}
   Lang_Rus: {fileID: 937487687}
+  b_Back: {fileID: 0}
   HomePanelButton: {fileID: 1637954835}
+  CurrentThemePanel: {fileID: 0}
 --- !u!4 &1438232490
 Transform:
   m_ObjectHideFlags: 0
@@ -30782,10 +30815,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 2160, y: 3840}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -33700,6 +33733,11 @@ MonoBehaviour:
   SecondSpriteRus: {fileID: 21300000, guid: 8c07d96618974f34dbb610e169e67fe2, type: 3}
   FirstSpriteUzb: {fileID: 21300000, guid: 829b338b787193a4b9e963802f8dae45, type: 3}
   SecondSpriteUzb: {fileID: 21300000, guid: 5dfccd7179c639b45934c366d467e052, type: 3}
+  rusPopap: {fileID: 304995839}
+  uzbPopap: {fileID: 1742833331}
+  textJuicersRus: []
+  textJuicersUzb: []
+  IsActive: 0
 --- !u!1 &1568612680
 GameObject:
   m_ObjectHideFlags: 0
@@ -41123,6 +41161,11 @@ MonoBehaviour:
   SecondSpriteRus: {fileID: 21300000, guid: 019a231e38568ae4e84e33f5be8152d0, type: 3}
   FirstSpriteUzb: {fileID: 21300000, guid: 7a7cdd0f5ded71e4cbd20a00fdf566f9, type: 3}
   SecondSpriteUzb: {fileID: 21300000, guid: 99626cb1c3c0fe64c89bb7a6163c76f9, type: 3}
+  rusPopap: {fileID: 1483446039}
+  uzbPopap: {fileID: 1104514592}
+  textJuicersRus: []
+  textJuicersUzb: []
+  IsActive: 0
 --- !u!1 &1997709923
 GameObject:
   m_ObjectHideFlags: 0
