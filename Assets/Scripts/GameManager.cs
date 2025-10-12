@@ -139,6 +139,24 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         
+        foreach (var animText in StartPanel.AllAnimTexts)
+        {
+            animText.ChangeLanguage(CurrentLang);
+            animText.textJuicer.SetProgress(0);
+            animText.textJuicer.Update();
+        }
+        progress = 0f;
+        while (progress < 1f)
+        {
+            progress += Time.deltaTime * SpeedAnimText;
+            foreach (var animText in StartPanel.AllAnimTexts)
+            {
+                animText.textJuicer.SetProgress(progress);
+                animText.textJuicer.Update();
+            }
+            yield return null;
+        }
+        
         OnButtonMenu();
     }
 
