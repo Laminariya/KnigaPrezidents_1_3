@@ -35,6 +35,10 @@ public class ThemePanel : MonoBehaviour
     public Transform ButtonPointRus;
     public Transform ButtonPointUzb;
     public int NumberSend;
+    public int CountSend;
+    private int _currentSend;
+    private bool _isShow;
+    private Coroutine _coroutine;
     
     public void Init()
     {
@@ -44,6 +48,7 @@ public class ThemePanel : MonoBehaviour
         rusPanel.SetActive(false);
         uzbPanel = transform.GetChild(1).gameObject;
         uzbPanel.SetActive(false);
+        _currentSend = 0;
         
         textJuicersRus = rusPanel.GetComponentsInChildren<TMP_TextJuicer>().ToList();
         textJuicersUzb = uzbPanel.GetComponentsInChildren<TMP_TextJuicer>().ToList();
@@ -126,10 +131,14 @@ public class ThemePanel : MonoBehaviour
         IsActive = false;
         uzbPanel.SetActive(false);
         rusPanel.SetActive(false);
+        HidePopap();
     }
 
     private void HidePopap()
     {
+        _isShow = false;
+        if(_coroutine != null)
+            StopCoroutine(_coroutine);
         b_UpUzb.enabled = false;
         b_UpRus.enabled = false;
         b_DownRus.enabled = false;
@@ -146,7 +155,10 @@ public class ThemePanel : MonoBehaviour
 
     private void ShowPopap()
     {
-        _manager.MySendMessage("0"+NumberSend+"01");
+        _isShow = true;
+        if(_coroutine != null)
+            StopCoroutine(_coroutine);
+        _coroutine = StartCoroutine(SendMessagesCycle());
         b_UpUzb.enabled = false;
         b_UpRus.enabled = false;
         b_DownRus.enabled = false;
@@ -159,6 +171,17 @@ public class ThemePanel : MonoBehaviour
         
         b_UpUzb.gameObject.SetActive(true);
         b_UpRus.gameObject.SetActive(true);
+    }
+
+    IEnumerator SendMessagesCycle()
+    {
+        while (_isShow)
+        {
+            _currentSend++;
+            if (_currentSend > CountSend) _currentSend = 1;
+            _manager.MySendMessage("0" + NumberSend + "0" + _currentSend);
+            yield return new WaitForSeconds(5f);
+        }
     }
 
     private void ActivateUpButton()
