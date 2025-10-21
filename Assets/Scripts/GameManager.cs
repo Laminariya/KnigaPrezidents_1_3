@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public float SpeedAnimText;
     public MenuPanel MenuPanel;
     public StartPanel StartPanel;
+    public GameObject StandbyPanel;
     
     [HideInInspector] public ClientUDP ClientUdp;
     public GameObject Border;
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
     public ThemePanel CurrentThemePanel;
 
     private Coroutine _coroutineClickButton;
+    private float _time;
     
     private void Awake()
     {
@@ -38,7 +40,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         ClientUdp = GetComponent<ClientUDP>();
-        CurrentLang = 1;
+        CurrentLang = 0;
         MenuPanel.Init();
         StartPanel.Init();
         ClientUdp.Init();
@@ -47,6 +49,31 @@ public class GameManager : MonoBehaviour
         Lang_Rus.onClick.AddListener(OnRus);
         HomePanelButton.SetActive(false);
         b_Back = HomePanelButton.GetComponentInChildren<Button>();
+        // OnUzb();
+        // StartCoroutine(HideMenu());
+        StartCoroutine(ChangeLangCoroutine());
+    }
+
+    private void Update()
+    {
+        if (!MenuPanel.gameObject.activeSelf && !StandbyPanel.activeSelf)
+        {
+            _time += Time.deltaTime;
+            if (_time >= 5f)
+            {
+                _time = 0;
+                CurrentLang++;
+                if(CurrentLang == 2)
+                    CurrentLang = 0;
+                StartCoroutine(ChangeLangCoroutine());
+            }
+        }
+    }
+
+    IEnumerator HideMenu()
+    {
+        yield return new WaitForSeconds(1f);
+        MenuPanel.Hide();
     }
 
     private void OnUzb()
@@ -56,6 +83,12 @@ public class GameManager : MonoBehaviour
         OffButtonMenu();
         Lang_Uzb.image.DOFade(1f, 0.3f);
         Lang_Uzb.image.DOFade(0f, 0.3f).SetDelay(0.3f).OnComplete(StartShowCor);
+    }
+
+    public void OnUzbLang()
+    {
+        CurrentLang = 0;
+        StartCoroutine(ChangeLangCoroutine());
     }
 
     private void OnRus()
@@ -78,7 +111,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ChangeLangCoroutine());
     }
 
-    IEnumerator ChangeLangCoroutine()
+    public IEnumerator ChangeLangCoroutine()
     {
         float progress = 0f;
         if (CurrentThemePanel != null && CurrentThemePanel.IsActive)

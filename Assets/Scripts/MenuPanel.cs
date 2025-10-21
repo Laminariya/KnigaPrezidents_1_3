@@ -11,7 +11,6 @@ public class MenuPanel : MonoBehaviour
 {
     
     public List<Button> Buttons = new List<Button>();
-    public Button BackButton;
     
     public GameObject AllButtonsParent;
     public GameObject AllThemeParent;
@@ -109,7 +108,9 @@ public class MenuPanel : MonoBehaviour
             Hide();
             OnAllButtons();
             _manager.OnButtonMenu();
+            _manager.OnUzbLang();
         }
+       
     }
 
     IEnumerator ShowMenu()

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class StartPanel : MonoBehaviour
 {
     
-    public Button StartButton;
     public List<AnimTextClass> AllAnimTexts = new List<AnimTextClass>();
     
     public void Init()
